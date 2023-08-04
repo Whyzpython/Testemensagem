@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Livro de Mensagens</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #messages {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Livro de Mensagens</h1>
+  <div id="messages"></div>
+  <textarea id="newMessage" placeholder="Deixe sua mensagem aqui..."></textarea>
+  <br>
+  <button onclick="addMessage()">Enviar Mensagem</button>
+
+  <script>
+    // Função para adicionar uma nova mensagem
+    function addMessage() {
+      var message = document.getElementById("newMessage").value;
+      if (message.trim() === "") {
+        alert("Por favor, digite uma mensagem antes de enviar.");
+        return;
+      }
+
+      var messageId = Date.now(); // Gera um ID único para a mensagem usando a data/hora atual
+
+      // Cria um novo elemento div para mostrar a mensagem no formato "ID: Mensagem"
+      var messageElement = document.createElement("div");
+      messageElement.className = "message";
+      messageElement.innerText = messageId + ": " + message;
+
+      // Adiciona a mensagem à lista de mensagens
+      document.getElementById("messages").appendChild(messageElement);
+
+      // Limpa o campo de texto para a próxima mensagem
+      document.getElementById("newMessage").value = "";
+    }
+
+    // Função para carregar mensagens existentes do LocalStorage
+    window.onload = function() {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (!isNaN(key)) { // Verifica se a chave é um número (ID de mensagem)
+          var message = localStorage.getItem(key);
+
+          // Cria um novo elemento div para mostrar a mensagem no formato "ID: Mensagem"
+          var messageElement = document.createElement("div");
+          messageElement.className = "message";
+          messageElement.innerText = key + ": " + message;
+
+          // Adiciona a mensagem à lista de mensagens
+          document.getElementById("messages").appendChild(messageElement);
+        }
+      }
+    };
+  </script>
+</body>
+</html>
